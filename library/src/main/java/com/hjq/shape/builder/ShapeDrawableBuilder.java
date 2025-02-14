@@ -811,7 +811,7 @@ public final class ShapeDrawableBuilder {
         }
         mView.setBackground(drawable);
         //新增逻辑
-        if (isStrokeDashLineEnable() || isShadowEnable()) {
+        if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
              if(mView.getBackground() != null){
                  mView.getBackground().setDither(true);
              }
