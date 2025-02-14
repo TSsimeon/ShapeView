@@ -810,6 +810,10 @@ public final class ShapeDrawableBuilder {
             mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         mView.setBackground(drawable);
+        //新增逻辑
+        if (isStrokeDashLineEnable() || isShadowEnable()) {
+            mView.background.setDither(true);
+        }
     }
 
     /**
