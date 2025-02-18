@@ -13,10 +13,10 @@ import com.hjq.shape.config.IGetTextColorBuilder;
 import com.hjq.shape.styleable.ShapeButtonStyleable;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/07/17
- *    desc   : 支持直接定义 Shape 背景的 Button
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/07/17
+ * desc   : 支持直接定义 Shape 背景的 Button
  */
 public class ShapeButton extends AppCompatButton implements
         IGetShapeDrawableBuilder, IGetTextColorBuilder {
@@ -36,7 +36,6 @@ public class ShapeButton extends AppCompatButton implements
 
     public ShapeButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ShapeButton);
         mShapeDrawableBuilder = new ShapeDrawableBuilder(this, typedArray, STYLEABLE);
         mTextColorBuilder = new TextColorBuilder(this, typedArray, STYLEABLE);
@@ -78,5 +77,19 @@ public class ShapeButton extends AppCompatButton implements
     @Override
     public TextColorBuilder getTextColorBuilder() {
         return mTextColorBuilder;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (mShapeDrawableBuilder != null) {
+            if (enabled) {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientEnableColors());
+                mShapeDrawableBuilder.intoBackground();
+            } else {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientDisableColors());
+                mShapeDrawableBuilder.intoBackground();
+            }
+        }
     }
 }

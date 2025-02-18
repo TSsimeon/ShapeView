@@ -6,10 +6,10 @@ import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.config.ITextColorStyleable;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/08/28
- *    desc   : RadioButton 的 Shape 属性值
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/08/28
+ * desc   : RadioButton 的 Shape 属性值
  */
 public final class ShapeRadioButtonStyleable implements IShapeDrawableStyleable,
         ITextColorStyleable, ICompoundButtonStyleable {
@@ -114,13 +114,28 @@ public final class ShapeRadioButtonStyleable implements IShapeDrawableStyleable,
     }
 
     @Override
+    public int getSolidGradientStartDisabledColorStyleable() {
+        return R.styleable.ShapeRadioButton_shape_solidGradientStartDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientCenterColorStyleable() {
         return R.styleable.ShapeRadioButton_shape_solidGradientCenterColor;
     }
 
     @Override
+    public int getSolidGradientCenterDisabledColorStyleable() {
+        return R.styleable.ShapeRadioButton_shape_solidGradientCenterDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientEndColorStyleable() {
         return R.styleable.ShapeRadioButton_shape_solidGradientEndColor;
+    }
+
+    @Override
+    public int getSolidGradientEndDisabledColorStyleable() {
+        return R.styleable.ShapeRadioButton_shape_solidGradientEndDisabledColor;
     }
 
     @Override
@@ -311,6 +326,7 @@ public final class ShapeRadioButtonStyleable implements IShapeDrawableStyleable,
     public int getTextGradientOrientationStyleable() {
         return R.styleable.ShapeRadioButton_shape_textGradientOrientation;
     }
+
     /**
      * {@link ICompoundButtonStyleable}
      */

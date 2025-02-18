@@ -44,4 +44,19 @@ public class ShapeConstraintLayout extends ConstraintLayout implements IGetShape
     public ShapeDrawableBuilder getShapeDrawableBuilder() {
         return mShapeDrawableBuilder;
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (mShapeDrawableBuilder != null) {
+            if (enabled) {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientEnableColors());
+                mShapeDrawableBuilder.intoBackground();
+            } else {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientDisableColors());
+                mShapeDrawableBuilder.intoBackground();
+            }
+        }
+    }
+
 }

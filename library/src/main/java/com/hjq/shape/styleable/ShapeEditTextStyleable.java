@@ -107,13 +107,28 @@ public final class ShapeEditTextStyleable implements IShapeDrawableStyleable, IT
     }
 
     @Override
+    public int getSolidGradientStartDisabledColorStyleable() {
+        return R.styleable.ShapeEditText_shape_solidGradientStartDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientCenterColorStyleable() {
         return R.styleable.ShapeEditText_shape_solidGradientCenterColor;
     }
 
     @Override
+    public int getSolidGradientCenterDisabledColorStyleable() {
+        return R.styleable.ShapeEditText_shape_solidGradientCenterDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientEndColorStyleable() {
         return R.styleable.ShapeEditText_shape_solidGradientEndColor;
+    }
+
+    @Override
+    public int getSolidGradientEndDisabledColorStyleable() {
+        return R.styleable.ShapeEditText_shape_solidGradientEndDisabledColor;
     }
 
     @Override

@@ -11,10 +11,10 @@ import com.hjq.shape.config.IGetShapeDrawableBuilder;
 import com.hjq.shape.styleable.ShapeRelativeLayoutStyleable;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/07/17
- *    desc   : 支持直接定义 Shape 背景的 RelativeLayout
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/07/17
+ * desc   : 支持直接定义 Shape 背景的 RelativeLayout
  */
 public class ShapeRelativeLayout extends RelativeLayout implements IGetShapeDrawableBuilder {
 
@@ -43,5 +43,19 @@ public class ShapeRelativeLayout extends RelativeLayout implements IGetShapeDraw
     @Override
     public ShapeDrawableBuilder getShapeDrawableBuilder() {
         return mShapeDrawableBuilder;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (mShapeDrawableBuilder != null) {
+            if (enabled) {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientEnableColors());
+                mShapeDrawableBuilder.intoBackground();
+            } else {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientDisableColors());
+                mShapeDrawableBuilder.intoBackground();
+            }
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.hjq.shape.config;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/08/28
- *    desc   : ShapeDrawable View 属性收集接口
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/08/28
+ * desc   : ShapeDrawable View 属性收集接口
  */
 public interface IShapeDrawableStyleable {
 
@@ -48,9 +48,15 @@ public interface IShapeDrawableStyleable {
 
     int getSolidGradientStartColorStyleable();
 
+    int getSolidGradientStartDisabledColorStyleable();
+
     int getSolidGradientCenterColorStyleable();
 
+    int getSolidGradientCenterDisabledColorStyleable();
+
     int getSolidGradientEndColorStyleable();
+
+    int getSolidGradientEndDisabledColorStyleable();
 
     int getSolidGradientOrientationStyleable();
 

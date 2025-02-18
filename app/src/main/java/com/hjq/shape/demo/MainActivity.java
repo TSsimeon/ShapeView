@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.hjq.shape.view.ShapeButton;
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
                 shapeButton.setText("颜色已经改变啦");
             }
+        });
+        View btn1 = findViewById(R.id.btn1);
+        btn1.setOnClickListener(view -> {
+            btn1.setEnabled(false);
         });
     }
 }

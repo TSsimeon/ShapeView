@@ -107,13 +107,28 @@ public final class ShapeButtonStyleable implements IShapeDrawableStyleable, ITex
     }
 
     @Override
+    public int getSolidGradientStartDisabledColorStyleable() {
+        return R.styleable.ShapeButton_shape_solidGradientStartDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientCenterColorStyleable() {
         return R.styleable.ShapeButton_shape_solidGradientCenterColor;
     }
 
     @Override
+    public int getSolidGradientCenterDisabledColorStyleable() {
+        return R.styleable.ShapeButton_shape_solidGradientCenterDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientEndColorStyleable() {
         return R.styleable.ShapeButton_shape_solidGradientEndColor;
+    }
+
+    @Override
+    public int getSolidGradientEndDisabledColorStyleable() {
+        return R.styleable.ShapeButton_shape_solidGradientEndDisabledColor;
     }
 
     @Override

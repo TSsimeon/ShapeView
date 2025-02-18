@@ -106,13 +106,28 @@ public final class ShapeConstraintLayoutStyleable implements IShapeDrawableStyle
     }
 
     @Override
+    public int getSolidGradientStartDisabledColorStyleable() {
+        return R.styleable.ShapeConstraintLayout_shape_solidGradientStartDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientCenterColorStyleable() {
         return R.styleable.ShapeConstraintLayout_shape_solidGradientCenterColor;
     }
 
     @Override
+    public int getSolidGradientCenterDisabledColorStyleable() {
+        return R.styleable.ShapeConstraintLayout_shape_solidGradientCenterDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientEndColorStyleable() {
         return R.styleable.ShapeConstraintLayout_shape_solidGradientEndColor;
+    }
+
+    @Override
+    public int getSolidGradientEndDisabledColorStyleable() {
+        return R.styleable.ShapeButton_shape_solidGradientEndDisabledColor;
     }
 
     @Override

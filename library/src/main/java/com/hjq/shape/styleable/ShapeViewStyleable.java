@@ -4,10 +4,10 @@ import com.hjq.shape.R;
 import com.hjq.shape.config.IShapeDrawableStyleable;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/08/28
- *    desc   : View 的 Shape 属性值
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/08/28
+ * desc   : View 的 Shape 属性值
  */
 public final class ShapeViewStyleable implements IShapeDrawableStyleable {
 
@@ -106,13 +106,28 @@ public final class ShapeViewStyleable implements IShapeDrawableStyleable {
     }
 
     @Override
+    public int getSolidGradientStartDisabledColorStyleable() {
+        return R.styleable.ShapeView_shape_solidGradientStartDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientCenterColorStyleable() {
         return R.styleable.ShapeView_shape_solidGradientCenterColor;
     }
 
     @Override
+    public int getSolidGradientCenterDisabledColorStyleable() {
+        return R.styleable.ShapeView_shape_solidGradientCenterDisabledColor;
+    }
+
+    @Override
     public int getSolidGradientEndColorStyleable() {
         return R.styleable.ShapeView_shape_solidGradientEndColor;
+    }
+
+    @Override
+    public int getSolidGradientEndDisabledColorStyleable() {
+        return R.styleable.ShapeView_shape_solidGradientEndDisabledColor;
     }
 
     @Override

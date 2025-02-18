@@ -100,4 +100,19 @@ public class ShapeCheckBox extends AppCompatCheckBox implements
     public ButtonDrawableBuilder getButtonDrawableBuilder() {
         return mButtonDrawableBuilder;
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (mShapeDrawableBuilder != null) {
+            if (enabled) {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientEnableColors());
+                mShapeDrawableBuilder.intoBackground();
+            } else {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientDisableColors());
+                mShapeDrawableBuilder.intoBackground();
+            }
+        }
+    }
+
 }

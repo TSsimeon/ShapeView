@@ -44,4 +44,18 @@ public class ShapeImageView extends AppCompatImageView implements IGetShapeDrawa
     public ShapeDrawableBuilder getShapeDrawableBuilder() {
         return mShapeDrawableBuilder;
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (mShapeDrawableBuilder != null) {
+            if (enabled) {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientEnableColors());
+                mShapeDrawableBuilder.intoBackground();
+            } else {
+                mShapeDrawableBuilder.setSolidGradientColors(mShapeDrawableBuilder.getSolidGradientDisableColors());
+                mShapeDrawableBuilder.intoBackground();
+            }
+        }
+    }
 }

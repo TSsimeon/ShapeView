@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
+
 import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.drawable.ShapeDrawable;
 import com.hjq.shape.drawable.ShapeGradientOrientation;
@@ -17,10 +18,10 @@ import com.hjq.shape.drawable.ShapeTypeLimit;
 import com.hjq.shape.other.ExtendStateListDrawable;
 
 /**
- *    author : Android 轮子哥
- *    github : https://github.com/getActivity/ShapeView
- *    time   : 2021/08/28
- *    desc   : ShapeDrawable 构建类
+ * author : Android 轮子哥
+ * github : https://github.com/getActivity/ShapeView
+ * time   : 2021/08/28
+ * desc   : ShapeDrawable 构建类
  */
 public final class ShapeDrawableBuilder {
 
@@ -46,6 +47,17 @@ public final class ShapeDrawableBuilder {
     private float mBottomRightRadius;
 
     private int[] mSolidGradientColors;
+
+    public int[] getSolidGradientEnableColors() {
+        return solidGradientEnableColors;
+    }
+
+    public int[] getSolidGradientDisableColors() {
+        return solidGradientDisableColors;
+    }
+
+    private int[] solidGradientEnableColors;
+    private int[] solidGradientDisableColors;
     private ShapeGradientOrientation mSolidGradientOrientation;
     @ShapeGradientTypeLimit
     private int mSolidGradientType;
@@ -165,15 +177,38 @@ public final class ShapeDrawableBuilder {
             mBottomRightRadius = typedArray.getDimensionPixelSize(styleable.getRadiusInBottomRightStyleable(), radius);
         }
 
+
         if (typedArray.hasValue(styleable.getSolidGradientStartColorStyleable()) && typedArray.hasValue(styleable.getSolidGradientEndColorStyleable())) {
             if (typedArray.hasValue(styleable.getSolidGradientCenterColorStyleable())) {
-                mSolidGradientColors = new int[] {typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
+                solidGradientEnableColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientCenterColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientEndColorStyleable(), NO_COLOR)};
             } else {
-                mSolidGradientColors = new int[] {typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
+                solidGradientEnableColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientEndColorStyleable(), NO_COLOR)};
             }
+        }
+
+        //新增逻辑,处理disable渐变
+        if (typedArray.hasValue(styleable.getSolidGradientStartDisabledColorStyleable()) && typedArray.hasValue(styleable.getSolidGradientEndDisabledColorStyleable())) {
+            if (typedArray.hasValue(styleable.getSolidGradientCenterDisabledColorStyleable())) {
+                solidGradientDisableColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartDisabledColorStyleable(), NO_COLOR),
+                        typedArray.getColor(styleable.getSolidGradientCenterDisabledColorStyleable(), NO_COLOR),
+                        typedArray.getColor(styleable.getSolidGradientEndDisabledColorStyleable(), NO_COLOR)};
+            } else {
+                solidGradientDisableColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartDisabledColorStyleable(), NO_COLOR),
+                        typedArray.getColor(styleable.getSolidGradientEndDisabledColorStyleable(), NO_COLOR)};
+            }
+        }
+        //如果禁用按钮没设置,默认使用已可用的
+        if (solidGradientDisableColors == null) {
+            solidGradientDisableColors = solidGradientEnableColors;
+        }
+        //可用和不可可用使用不同的颜色
+        if (view.isEnabled()) {
+            mSolidGradientColors = solidGradientEnableColors;
+        } else {
+            mSolidGradientColors = solidGradientDisableColors;
         }
 
         mSolidGradientOrientation = transformGradientOrientation(typedArray.getInt(styleable.getSolidGradientOrientationStyleable(), 0));
@@ -199,13 +234,19 @@ public final class ShapeDrawableBuilder {
             mStrokeSelectedColor = typedArray.getColor(styleable.getStrokeSelectedColorStyleable(), NO_COLOR);
         }
 
+        //View是否可用
+        if (mView.isEnabled()) {
+
+        } else {
+
+        }
         if (typedArray.hasValue(styleable.getStrokeGradientStartColorStyleable()) && typedArray.hasValue(styleable.getStrokeGradientEndColorStyleable())) {
             if (typedArray.hasValue(styleable.getStrokeGradientCenterColorStyleable())) {
-                mStrokeGradientColors = new int[] {typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
+                mStrokeGradientColors = new int[]{typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientCenterColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientEndColorStyleable(), NO_COLOR)};
             } else {
-                mStrokeGradientColors = new int[] {typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
+                mStrokeGradientColors = new int[]{typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientEndColorStyleable(), NO_COLOR)};
             }
         }
@@ -777,7 +818,7 @@ public final class ShapeDrawableBuilder {
         // 填充色设置
         if (solidStateColor != null) {
             drawable.setSolidColor(solidStateColor);
-        } else if (isSolidGradientColorsEnable()){
+        } else if (isSolidGradientColorsEnable()) {
             drawable.setSolidColor(mSolidGradientColors);
         } else {
             drawable.setSolidColor(mSolidColor);
@@ -812,10 +853,10 @@ public final class ShapeDrawableBuilder {
         mView.setBackground(drawable);
         //新增逻辑
         if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
-            if(drawable != null) {
+            if (drawable != null) {
                 drawable.setDither(true);
             }
-            if(mView.getBackground() != null){
+            if (mView.getBackground() != null) {
                 mView.getBackground().setDither(true);
             }
         }

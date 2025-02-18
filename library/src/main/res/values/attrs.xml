@@ -12,7 +12,7 @@
         <!-- 圆环 -->
         <enum name="ring" value="3" />
     </attr>
-    
+
     <!-- Shape 宽度 -->
     <attr name="shape_width" format="dimension" />
     <!-- Shape 高度 -->
@@ -53,8 +53,15 @@
     <!-- 填充色渐变色结束颜色 -->
     <attr name="shape_solidGradientEndColor" format="color" />
 
+    <!-- 填充色渐变色禁用状态起始颜色 -->
+    <attr name="shape_solidGradientStartDisabledColor" format="color" />
+    <!-- 填充色渐变色禁用状态中间颜色（可不设置） -->
+    <attr name="shape_solidGradientCenterDisabledColor" format="color" />
+    <!-- 填充色渐变色禁用状态结束颜色 -->
+    <attr name="shape_solidGradientEndDisabledColor" format="color" />
+
     <!-- 填充色渐变方向（仅用于线性渐变） -->
-    <attr name="shape_solidGradientOrientation" >
+    <attr name="shape_solidGradientOrientation">
         <!-- 从左到右绘制渐变（0 度） -->
         <enum name="leftToRight" value="0" />
         <enum name="startToEnd" value="10" />
@@ -91,7 +98,7 @@
         <!-- 径向渐变 -->
         <enum name="radial" value="1" />
         <!-- 扫描渐变 -->
-        <enum name="sweep"  value="2" />
+        <enum name="sweep" value="2" />
     </attr>
     <!-- 填充色渐变中心 X 点坐标的相对位置（默认值为 0.5）-->
     <attr name="shape_solidGradientCenterX" format="float|fraction" />
@@ -121,7 +128,7 @@
     <attr name="shape_strokeGradientEndColor" format="color" />
 
     <!-- 边框色渐变方向（仅用于线性渐变） -->
-    <attr name="shape_strokeGradientOrientation" >
+    <attr name="shape_strokeGradientOrientation">
         <!-- 从左到右绘制渐变（0 度） -->
         <enum name="leftToRight" value="0" />
         <enum name="startToEnd" value="10" />
@@ -256,6 +263,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -325,6 +335,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -395,6 +408,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -474,6 +490,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -552,6 +571,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -621,6 +643,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -676,6 +701,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -731,6 +759,9 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
@@ -777,7 +808,7 @@
         <attr name="shape_radiusInBottomStart" />
         <attr name="shape_radiusInBottomRight" />
         <attr name="shape_radiusInBottomEnd" />
-        
+
         <attr name="shape_solidColor" />
         <attr name="shape_solidPressedColor" />
         <attr name="shape_solidDisabledColor" />
@@ -786,12 +817,15 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
         <attr name="shape_solidGradientCenterY" />
         <attr name="shape_solidGradientRadius" />
-        
+
         <attr name="shape_strokeColor" />
         <attr name="shape_strokePressedColor" />
         <attr name="shape_strokeDisabledColor" />
@@ -832,7 +866,7 @@
         <attr name="shape_radiusInBottomStart" />
         <attr name="shape_radiusInBottomRight" />
         <attr name="shape_radiusInBottomEnd" />
-        
+
         <attr name="shape_solidColor" />
         <attr name="shape_solidPressedColor" />
         <attr name="shape_solidDisabledColor" />
@@ -841,12 +875,15 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
         <attr name="shape_solidGradientCenterY" />
         <attr name="shape_solidGradientRadius" />
-        
+
         <attr name="shape_strokeColor" />
         <attr name="shape_strokePressedColor" />
         <attr name="shape_strokeDisabledColor" />
@@ -887,7 +924,7 @@
         <attr name="shape_radiusInBottomStart" />
         <attr name="shape_radiusInBottomRight" />
         <attr name="shape_radiusInBottomEnd" />
-        
+
         <attr name="shape_solidColor" />
         <attr name="shape_solidPressedColor" />
         <attr name="shape_solidDisabledColor" />
@@ -896,12 +933,15 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
         <attr name="shape_solidGradientCenterY" />
         <attr name="shape_solidGradientRadius" />
-        
+
         <attr name="shape_strokeColor" />
         <attr name="shape_strokePressedColor" />
         <attr name="shape_strokeDisabledColor" />
@@ -942,7 +982,7 @@
         <attr name="shape_radiusInBottomStart" />
         <attr name="shape_radiusInBottomRight" />
         <attr name="shape_radiusInBottomEnd" />
-        
+
         <attr name="shape_solidColor" />
         <attr name="shape_solidPressedColor" />
         <attr name="shape_solidDisabledColor" />
@@ -951,12 +991,15 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
         <attr name="shape_solidGradientCenterY" />
         <attr name="shape_solidGradientRadius" />
-        
+
         <attr name="shape_strokeColor" />
         <attr name="shape_strokePressedColor" />
         <attr name="shape_strokeDisabledColor" />
@@ -997,7 +1040,7 @@
         <attr name="shape_radiusInBottomStart" />
         <attr name="shape_radiusInBottomRight" />
         <attr name="shape_radiusInBottomEnd" />
-        
+
         <attr name="shape_solidColor" />
         <attr name="shape_solidPressedColor" />
         <attr name="shape_solidDisabledColor" />
@@ -1006,12 +1049,15 @@
         <attr name="shape_solidGradientStartColor" />
         <attr name="shape_solidGradientCenterColor" />
         <attr name="shape_solidGradientEndColor" />
+        <attr name="shape_solidGradientStartDisabledColor" />
+        <attr name="shape_solidGradientCenterDisabledColor" />
+        <attr name="shape_solidGradientEndDisabledColor" />
         <attr name="shape_solidGradientOrientation" />
         <attr name="shape_solidGradientType" />
         <attr name="shape_solidGradientCenterX" />
         <attr name="shape_solidGradientCenterY" />
         <attr name="shape_solidGradientRadius" />
-        
+
         <attr name="shape_strokeColor" />
         <attr name="shape_strokePressedColor" />
         <attr name="shape_strokeDisabledColor" />
