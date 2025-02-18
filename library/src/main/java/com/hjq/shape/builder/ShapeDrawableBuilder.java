@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
-
 import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.drawable.ShapeDrawable;
 import com.hjq.shape.drawable.ShapeGradientOrientation;
@@ -18,10 +17,10 @@ import com.hjq.shape.drawable.ShapeTypeLimit;
 import com.hjq.shape.other.ExtendStateListDrawable;
 
 /**
- * author : Android 轮子哥
- * github : https://github.com/getActivity/ShapeView
- * time   : 2021/08/28
- * desc   : ShapeDrawable 构建类
+ *    author : Android 轮子哥
+ *    github : https://github.com/getActivity/ShapeView
+ *    time   : 2021/08/28
+ *    desc   : ShapeDrawable 构建类
  */
 public final class ShapeDrawableBuilder {
 
@@ -168,11 +167,11 @@ public final class ShapeDrawableBuilder {
 
         if (typedArray.hasValue(styleable.getSolidGradientStartColorStyleable()) && typedArray.hasValue(styleable.getSolidGradientEndColorStyleable())) {
             if (typedArray.hasValue(styleable.getSolidGradientCenterColorStyleable())) {
-                mSolidGradientColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
+                mSolidGradientColors = new int[] {typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientCenterColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientEndColorStyleable(), NO_COLOR)};
             } else {
-                mSolidGradientColors = new int[]{typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
+                mSolidGradientColors = new int[] {typedArray.getColor(styleable.getSolidGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getSolidGradientEndColorStyleable(), NO_COLOR)};
             }
         }
@@ -202,11 +201,11 @@ public final class ShapeDrawableBuilder {
 
         if (typedArray.hasValue(styleable.getStrokeGradientStartColorStyleable()) && typedArray.hasValue(styleable.getStrokeGradientEndColorStyleable())) {
             if (typedArray.hasValue(styleable.getStrokeGradientCenterColorStyleable())) {
-                mStrokeGradientColors = new int[]{typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
+                mStrokeGradientColors = new int[] {typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientCenterColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientEndColorStyleable(), NO_COLOR)};
             } else {
-                mStrokeGradientColors = new int[]{typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
+                mStrokeGradientColors = new int[] {typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
                         typedArray.getColor(styleable.getStrokeGradientEndColorStyleable(), NO_COLOR)};
             }
         }
@@ -778,7 +777,7 @@ public final class ShapeDrawableBuilder {
         // 填充色设置
         if (solidStateColor != null) {
             drawable.setSolidColor(solidStateColor);
-        } else if (isSolidGradientColorsEnable()) {
+        } else if (isSolidGradientColorsEnable()){
             drawable.setSolidColor(mSolidGradientColors);
         } else {
             drawable.setSolidColor(mSolidColor);
@@ -811,8 +810,14 @@ public final class ShapeDrawableBuilder {
             mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         mView.setBackground(drawable);
-        if (isStrokeDashLineEnable() || isShadowEnable()) {
-            mView.background.setDither(true);
+        //新增逻辑
+        if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
+            if(drawable != null) {
+                drawable.setDither(true);
+            }
+            if(mView.getBackground() != null){
+                mView.getBackground().setDither(true);
+            }
         }
     }
 
