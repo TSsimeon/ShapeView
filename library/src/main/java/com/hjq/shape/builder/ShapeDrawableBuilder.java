@@ -876,7 +876,7 @@ public final class ShapeDrawableBuilder {
 
 
     public void intoBackground() {
-        // 获取到的 Drawable 有可能为空
+         // 获取到的 Drawable 有可能为空
         Drawable drawable = buildBackgroundDrawable();
         if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
             // 需要关闭硬件加速，否则虚线或者阴影在某些手机上面无法生效，关闭硬件加速当View的内容大小超过屏幕,不会绘制内容,此时舍去阴影是比较好的方案
