@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 17
-        versionCode 930
-        versionName "9.3"
+        versionCode 960
+        versionName "9.6"
     }
 
     // 支持 Java JDK 8
@@ -65,4 +66,19 @@ tasks.register('javadocJar', Jar) {
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+// Jitpack 构建配置
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.getActivity'
+            artifactId = "${rootProject.name}"
+            version = "${android.defaultConfig.versionName}"
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
 }
