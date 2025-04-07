@@ -19,11 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.hjq.shape.layout.ShapeLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:shape_shadowSize="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -975,7 +976,7 @@
                 app:shape_strokeSize="3dp"
                 app:shape_type="line" />
 
-        </LinearLayout>
+        </com.hjq.shape.layout.ShapeLinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
