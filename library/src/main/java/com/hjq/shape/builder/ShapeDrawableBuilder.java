@@ -1,12 +1,17 @@
 package com.hjq.shape.builder;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.drawable.ShapeDrawable;
@@ -844,13 +849,42 @@ public final class ShapeDrawableBuilder {
         return new ShapeDrawable();
     }
 
+    public int getAppScreenHeight() {
+        WindowManager wm = (WindowManager) mView.getContext().getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) return -1;
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        return point.y;
+    }
+
+    public int getViewTotalHeight(View mView) {
+        int total = 0;
+        if (mView instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) mView;
+            if (group.getChildCount() > 0) {
+                for (int i = 0; i < group.getChildCount(); i++) {
+                    total += group.getChildAt(i).getMeasuredHeight();
+                }
+            } else {
+                total = group.getMeasuredHeight();
+            }
+        } else {
+            total = mView.getMeasuredHeight();
+        }
+        return total;
+    }
+
+
     public void intoBackground() {
         // 获取到的 Drawable 有可能为空
         Drawable drawable = buildBackgroundDrawable();
         if (isStrokeDashLineEnable() || isShadowEnable()) {
-            // 需要关闭硬件加速，否则虚线或者阴影在某些手机上面无法生效
+            // 需要关闭硬件加速，否则虚线或者阴影在某些手机上面无法生效，关闭硬件加速当View的内容大小超过屏幕,不会绘制内容,此时舍去阴影是比较好的方案
             // https://developer.android.com/guide/topics/graphics/hardware-accel?hl=zh-cn
-            mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            //当View的内容的高度小于屏幕,才使用软解
+            if (getViewTotalHeight(mView) < getAppScreenHeight()) {
+                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
         }
         mView.setBackground(drawable);
         //新增逻辑
