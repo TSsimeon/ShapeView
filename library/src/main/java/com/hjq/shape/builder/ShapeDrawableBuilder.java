@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,8 @@ import com.hjq.shape.drawable.ShapeGradientTypeLimit;
 import com.hjq.shape.drawable.ShapeType;
 import com.hjq.shape.drawable.ShapeTypeLimit;
 import com.hjq.shape.other.ExtendStateListDrawable;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * author : Android 轮子哥
@@ -874,30 +875,47 @@ public final class ShapeDrawableBuilder {
         return total;
     }
 
-
     public void intoBackground() {
-         // 获取到的 Drawable 有可能为空
+        //老的背景,用于当子view超过屏幕的时候,容错,不使用渐变,使用
+        Drawable oldDrawable = mView.getBackground();
+        // 获取到的 Drawable 有可能为空
         Drawable drawable = buildBackgroundDrawable();
+        //-1不设置软解、0设置软解、1使用view的background属性
+        AtomicInteger atomicState = new AtomicInteger(-1);
         if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
             // 需要关闭硬件加速，否则虚线或者阴影在某些手机上面无法生效，关闭硬件加速当View的内容大小超过屏幕,不会绘制内容,此时舍去阴影是比较好的方案
             // https://developer.android.com/guide/topics/graphics/hardware-accel?hl=zh-cn
             //当View的内容的高度小于屏幕,才使用软解
             mView.post(() -> {
                 if (getViewTotalHeight(mView) < getAppScreenHeight()) {
-                    mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    atomicState.set(0);
+                } else {
+                    atomicState.set(1);
                 }
             });
         }
-        mView.setBackground(drawable);
-        //新增逻辑
-        if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
-            if (drawable != null) {
-                drawable.setDither(true);
+        //因为高度的获取是需要时使用mView.post,这里也相应使用
+        mView.post(() -> {
+            int lastShowState = atomicState.get();
+            if (lastShowState == 0) {
+                //关闭硬件加速
+                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
-            if (mView.getBackground() != null) {
-                mView.getBackground().setDither(true);
+            Drawable lastDrawable = drawable;
+            if (lastShowState == 1) {
+                lastDrawable = oldDrawable;
             }
-        }
+            mView.setBackground(lastDrawable);
+            //新增逻辑
+            if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
+                if (lastDrawable != null) {
+                    lastDrawable.setDither(true);
+                }
+                if (mView.getBackground() != null) {
+                    mView.getBackground().setDither(true);
+                }
+            }
+        });
     }
 
     /**
