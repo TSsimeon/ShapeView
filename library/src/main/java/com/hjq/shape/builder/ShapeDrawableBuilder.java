@@ -2,16 +2,22 @@ package com.hjq.shape.builder;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
+import com.hjq.shape.R;
 import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.drawable.ShapeDrawable;
 import com.hjq.shape.drawable.ShapeGradientOrientation;
@@ -875,6 +881,7 @@ public final class ShapeDrawableBuilder {
         return total;
     }
 
+
     public void intoBackground() {
         //老的背景,用于当子view超过屏幕的时候,容错,不使用渐变,使用
         Drawable oldDrawable = mView.getBackground();
@@ -892,30 +899,33 @@ public final class ShapeDrawableBuilder {
                 } else {
                     atomicState.set(1);
                 }
+                rInto(atomicState, drawable, oldDrawable);
             });
         }
-        //因为高度的获取是需要时使用mView.post,这里也相应使用
-        mView.post(() -> {
-            int lastShowState = atomicState.get();
-            if (lastShowState == 0) {
-                //关闭硬件加速
-                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        //设置View,再设置一次
+        rInto(atomicState, drawable, oldDrawable);
+    }
+
+    private void rInto(AtomicInteger atomicState, Drawable drawable, Drawable oldDrawable) {
+        int lastShowState = atomicState.get();
+        if (lastShowState == 0) {
+            //关闭硬件加速
+            mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        Drawable lastDrawable = drawable;
+        if (lastShowState == 1) {
+            lastDrawable = oldDrawable;
+        }
+        mView.setBackground(lastDrawable);
+        //新增逻辑
+        if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
+            if (lastDrawable != null) {
+                lastDrawable.setDither(true);
             }
-            Drawable lastDrawable = drawable;
-            if (lastShowState == 1) {
-                lastDrawable = oldDrawable;
+            if (mView.getBackground() != null) {
+                mView.getBackground().setDither(true);
             }
-            mView.setBackground(lastDrawable);
-            //新增逻辑
-            if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
-                if (lastDrawable != null) {
-                    lastDrawable.setDither(true);
-                }
-                if (mView.getBackground() != null) {
-                    mView.getBackground().setDither(true);
-                }
-            }
-        });
+        }
     }
 
     /**
