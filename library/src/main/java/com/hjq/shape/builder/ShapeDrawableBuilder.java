@@ -864,23 +864,24 @@ public final class ShapeDrawableBuilder {
         return point.y;
     }
 
-    public int getViewTotalHeight(View mView) {
-        int total = 0;
-        if (mView instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) mView;
-            if (group.getChildCount() > 0) {
-                for (int i = 0; i < group.getChildCount(); i++) {
-                    total += group.getChildAt(i).getMeasuredHeight();
-                }
-            } else {
-                total = group.getMeasuredHeight();
-            }
-        } else {
-            total = mView.getMeasuredHeight();
+    /**
+     * 是否超过View的最大缓存,算法参考系统源码可以查看View.buildDrawingCacheImpl()方法
+     *
+     * @param width  width
+     * @param height height
+     * @return 是否超过内存
+     */
+    public boolean isOverLargeCache(int width, int height) {
+        //*4表示RGB888,直接按大的计算
+        final long projectedBitmapSize = (long) width * height * 4;
+        final long drawingCacheSize = ViewConfiguration.get(mView.getContext()).getScaledMaximumDrawingCacheSize();
+        //项目缓存大于最大值
+        if (projectedBitmapSize >= drawingCacheSize) {
+            Log.w("ShapeDrawableBuilder", mView.getClass().getSimpleName() + " cache too lange,width:" + width + ",height:" + height + ",projectedBitmapSize:" + projectedBitmapSize + ",maxDrawingCacheSize:" + drawingCacheSize + " use android:background");
+            return true;
         }
-        return total;
+        return false;
     }
-
 
     public void intoBackground() {
         //老的背景,用于当子view超过屏幕的时候,容错,不使用渐变,使用
@@ -892,9 +893,9 @@ public final class ShapeDrawableBuilder {
         if (isStrokeDashLineEnable() || isShadowEnable() || isSolidGradientColorsEnable()) {
             // 需要关闭硬件加速，否则虚线或者阴影在某些手机上面无法生效，关闭硬件加速当View的内容大小超过屏幕,不会绘制内容,此时舍去阴影是比较好的方案
             // https://developer.android.com/guide/topics/graphics/hardware-accel?hl=zh-cn
-            //当View的内容的高度小于屏幕,才使用软解
+            //当View的缓存计算小于最大值才使用软解
             mView.post(() -> {
-                if (getViewTotalHeight(mView) < getAppScreenHeight()) {
+                if (!isOverLargeCache(mView.getMeasuredWidth(), mView.getMeasuredHeight())) {
                     atomicState.set(0);
                 } else {
                     atomicState.set(1);
