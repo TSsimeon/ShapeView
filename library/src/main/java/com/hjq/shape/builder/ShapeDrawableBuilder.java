@@ -856,28 +856,41 @@ public final class ShapeDrawableBuilder {
         return new ShapeDrawable();
     }
 
-    public int getAppScreenHeight() {
-        WindowManager wm = (WindowManager) mView.getContext().getSystemService(Context.WINDOW_SERVICE);
-        if (wm == null) return -1;
-        Point point = new Point();
-        wm.getDefaultDisplay().getSize(point);
-        return point.y;
+
+    //获取child的宽度和高度
+    private int[] getChildWidthHeight() {
+        int[] info = {0, 0};
+        if (mView instanceof ViewGroup) {
+            int count = ((ViewGroup) mView).getChildCount();
+            int totalWidth = 0;
+            int totalHeight = 0;
+            for (int i = 0; i < count; i++) {
+                totalWidth += ((ViewGroup) mView).getChildAt(i).getMeasuredWidth();
+                totalHeight += ((ViewGroup) mView).getChildAt(i).getMeasuredHeight();
+            }
+            info[0] = totalWidth;
+            info[1] = totalHeight;
+        }
+        return info;
     }
 
     /**
      * 是否超过View的最大缓存,算法参考系统源码可以查看View.buildDrawingCacheImpl()方法
      *
-     * @param width  width
-     * @param height height
      * @return 是否超过内存
      */
-    public boolean isOverLargeCache(int width, int height) {
+    public boolean isOverLargeCache() {
         //*4表示RGB888,直接按大的计算
-        final long projectedBitmapSize = (long) width * height * 4;
+        int width = mView.getMeasuredWidth();
+        int height = mView.getMeasuredHeight();
+        int[] childMeasured = getChildWidthHeight();
+        int lastWidth = Math.max(width, childMeasured[0]);
+        int lastHeight = Math.max(height, childMeasured[1]);
+        final long projectedBitmapSize = (long) lastWidth * lastHeight * 4;
         final long drawingCacheSize = ViewConfiguration.get(mView.getContext()).getScaledMaximumDrawingCacheSize();
         //项目缓存大于最大值
         if (projectedBitmapSize >= drawingCacheSize) {
-            Log.w("ShapeDrawableBuilder", mView.getClass().getSimpleName() + " cache too lange,width:" + width + ",height:" + height + ",projectedBitmapSize:" + projectedBitmapSize + ",maxDrawingCacheSize:" + drawingCacheSize + " use android:background");
+            Log.w("ShapeDrawableBuilder", mView.getClass().getSimpleName() + " cache too lange,width:" + lastWidth + ",height:" + lastHeight + ",projectedBitmapSize:" + projectedBitmapSize + ",maxDrawingCacheSize:" + drawingCacheSize + " use android:background params to set");
             return true;
         }
         return false;
@@ -895,7 +908,7 @@ public final class ShapeDrawableBuilder {
             // https://developer.android.com/guide/topics/graphics/hardware-accel?hl=zh-cn
             //当View的缓存计算小于最大值才使用软解
             mView.post(() -> {
-                if (!isOverLargeCache(mView.getMeasuredWidth(), mView.getMeasuredHeight())) {
+                if (!isOverLargeCache()) {
                     atomicState.set(0);
                 } else {
                     atomicState.set(1);
