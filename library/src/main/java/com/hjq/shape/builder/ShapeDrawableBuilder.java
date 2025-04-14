@@ -1,11 +1,7 @@
 package com.hjq.shape.builder;
 
-import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,10 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 
-import com.hjq.shape.R;
 import com.hjq.shape.config.IShapeDrawableStyleable;
 import com.hjq.shape.drawable.ShapeDrawable;
 import com.hjq.shape.drawable.ShapeGradientOrientation;
@@ -858,20 +851,15 @@ public final class ShapeDrawableBuilder {
 
 
     //获取child的宽度和高度
-    private int[] getChildWidthHeight() {
-        int[] info = {0, 0};
+    private int getChildHeight() {
+        int totalHeight = 0;
         if (mView instanceof ViewGroup) {
             int count = ((ViewGroup) mView).getChildCount();
-            int totalWidth = 0;
-            int totalHeight = 0;
             for (int i = 0; i < count; i++) {
-                totalWidth += ((ViewGroup) mView).getChildAt(i).getMeasuredWidth();
                 totalHeight += ((ViewGroup) mView).getChildAt(i).getMeasuredHeight();
             }
-            info[0] = totalWidth;
-            info[1] = totalHeight;
         }
-        return info;
+        return totalHeight;
     }
 
     /**
@@ -883,14 +871,13 @@ public final class ShapeDrawableBuilder {
         //*4表示RGB888,直接按大的计算
         int width = mView.getMeasuredWidth();
         int height = mView.getMeasuredHeight();
-        int[] childMeasured = getChildWidthHeight();
-        int lastWidth = Math.max(width, childMeasured[0]);
-        int lastHeight = Math.max(height, childMeasured[1]);
-        final long projectedBitmapSize = (long) lastWidth * lastHeight * 4;
+        int childMeasuredHeight = getChildHeight();
+        int lastHeight = Math.max(height, childMeasuredHeight);
+        final long projectedBitmapSize = (long) width * lastHeight * 4;
         final long drawingCacheSize = ViewConfiguration.get(mView.getContext()).getScaledMaximumDrawingCacheSize();
         //项目缓存大于最大值
         if (projectedBitmapSize >= drawingCacheSize) {
-            Log.w("ShapeDrawableBuilder", mView.getClass().getSimpleName() + " cache too lange,width:" + lastWidth + ",height:" + lastHeight + ",projectedBitmapSize:" + projectedBitmapSize + ",maxDrawingCacheSize:" + drawingCacheSize + " use android:background params to set");
+            Log.w("ShapeDrawableBuilder", mView.getClass().getSimpleName() + " cache too lange,width:" + width + ",height:" + lastHeight + ",projectedBitmapSize:" + projectedBitmapSize + ",maxDrawingCacheSize:" + drawingCacheSize + " use android:background params to set");
             return true;
         }
         return false;
