@@ -45,8 +45,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         View btn1 = findViewById(R.id.btn1);
+        ShapeButton btnTest = findViewById(R.id.btnTest);
         btn1.setOnClickListener(view -> {
             btn1.setEnabled(false);
         });
+        btnTest.setOnClickListener(view -> btnTest.post(() -> {
+            btnTest.setPadding(0, 2500, 0, 0);
+            btnTest.getShapeDrawableBuilder().intoBackground();
+        }));
     }
 }

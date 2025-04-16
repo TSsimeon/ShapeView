@@ -38,17 +38,19 @@
                 android:textStyle="bold" />
 
             <com.hjq.shape.view.ShapeButton
+                android:id="@+id/btnTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:gravity="center"
-                android:padding="10dp"
                 android:text="填充色按压效果"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 app:shape_radius="20dp"
                 app:shape_solidColor="#5A8DDF"
+                android:background="@android:color/holo_red_light"
+                app:shape_shadowSize="10dp"
                 app:shape_solidPressedColor="#AA5A8DDF"
                 app:shape_type="rectangle" />
 

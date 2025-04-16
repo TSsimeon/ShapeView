@@ -95,9 +95,13 @@ public final class ShapeDrawableBuilder {
     private float mRingThicknessRatio;
 
     private int mLineGravity;
+    private final Drawable androidBackground;
+    private final int layerType;
 
     public ShapeDrawableBuilder(View view, TypedArray typedArray, IShapeDrawableStyleable styleable) {
         mView = view;
+        layerType = mView.getLayerType();
+        androidBackground = mView.getBackground();
         mType = typedArray.getInt(styleable.getShapeTypeStyleable(), ShapeType.RECTANGLE);
         mWidth = typedArray.getDimensionPixelSize(styleable.getShapeWidthStyleable(), -1);
         mHeight = typedArray.getDimensionPixelSize(styleable.getShapeHeightStyleable(), -1);
@@ -239,12 +243,6 @@ public final class ShapeDrawableBuilder {
             mStrokeSelectedColor = typedArray.getColor(styleable.getStrokeSelectedColorStyleable(), NO_COLOR);
         }
 
-        //View是否可用
-        if (mView.isEnabled()) {
-
-        } else {
-
-        }
         if (typedArray.hasValue(styleable.getStrokeGradientStartColorStyleable()) && typedArray.hasValue(styleable.getStrokeGradientEndColorStyleable())) {
             if (typedArray.hasValue(styleable.getStrokeGradientCenterColorStyleable())) {
                 mStrokeGradientColors = new int[]{typedArray.getColor(styleable.getStrokeGradientStartColorStyleable(), NO_COLOR),
@@ -888,7 +886,6 @@ public final class ShapeDrawableBuilder {
 
     public void intoBackground() {
         //老的背景,用于当子view超过屏幕的时候,容错,不使用渐变,使用
-        Drawable oldDrawable = mView.getBackground();
         // 获取到的 Drawable 有可能为空
         Drawable drawable = buildBackgroundDrawable();
         //-1不设置软解、0设置软解、1使用view的background属性
@@ -903,18 +900,22 @@ public final class ShapeDrawableBuilder {
                 } else {
                     atomicState.set(1);
                 }
-                rInto(atomicState, drawable, oldDrawable);
+                rInto(atomicState, drawable, androidBackground);
             });
         }
         //设置View,再设置一次
-        rInto(atomicState, drawable, oldDrawable);
+        rInto(atomicState, drawable, androidBackground);
     }
 
+    //-1不设置软解、0设置软解、1使用view的background属性
     private void rInto(AtomicInteger atomicState, Drawable drawable, Drawable oldDrawable) {
         int lastShowState = atomicState.get();
         if (lastShowState == 0) {
             //关闭硬件加速
             mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        } else {
+            //使用之前的layerType
+            mView.setLayerType(layerType, null);
         }
         Drawable lastDrawable = drawable;
         if (lastShowState == 1) {
