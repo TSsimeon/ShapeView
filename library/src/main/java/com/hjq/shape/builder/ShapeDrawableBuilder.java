@@ -850,14 +850,17 @@ public final class ShapeDrawableBuilder {
     }
 
 
-    //获取child的宽度和高度
-    private int getChildHeight() {
+    //获取child的高度包含padding
+    private int getChildHeight(View view) {
         int totalHeight = 0;
-        if (mView instanceof ViewGroup) {
-            int count = ((ViewGroup) mView).getChildCount();
+        if (view instanceof ViewGroup) {
+            int count = ((ViewGroup) view).getChildCount();
             for (int i = 0; i < count; i++) {
-                totalHeight += ((ViewGroup) mView).getChildAt(i).getMeasuredHeight();
+                View childView = ((ViewGroup) view).getChildAt(i);
+                totalHeight += childView.getMeasuredHeight() + childView.getPaddingTop() + childView.getPaddingBottom();
             }
+        } else {
+            totalHeight = view.getMeasuredHeight() + view.getPaddingTop() + view.getPaddingBottom();
         }
         return totalHeight;
     }
@@ -869,9 +872,9 @@ public final class ShapeDrawableBuilder {
      */
     public boolean isOverLargeCache() {
         //*4表示RGB888,直接按大的计算
-        int width = mView.getMeasuredWidth();
-        int height = mView.getMeasuredHeight();
-        int childMeasuredHeight = getChildHeight();
+        int width = mView.getMeasuredWidth() + mView.getPaddingLeft() + mView.getPaddingRight();
+        int height = mView.getMeasuredHeight() + mView.getPaddingTop() + mView.getPaddingBottom();
+        int childMeasuredHeight = getChildHeight(mView);
         int lastHeight = Math.max(height, childMeasuredHeight);
         final long projectedBitmapSize = (long) width * lastHeight * 4;
         final long drawingCacheSize = ViewConfiguration.get(mView.getContext()).getScaledMaximumDrawingCacheSize();
